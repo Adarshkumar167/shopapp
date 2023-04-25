@@ -7,27 +7,23 @@ import '../providers/product.dart';
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
 
-  // final String id;
-  // final String title;
-  // final String imageUrl;
-
-  // const ProductItem(this.id, this.title, this.imageUrl, {super.key});
-
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black54,
-          leading: IconButton(
-            icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: Colors.orangeAccent),
-            onPressed: () {
-              product.toggleFavoriteStatus();
-            },
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.orangeAccent),
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+            ),
           ),
           title: Text(
             product.title,
@@ -36,9 +32,7 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart_outlined,
                 color: Colors.orangeAccent),
-            onPressed: () {
-              product.toggleFavoriteStatus();
-            },
+            onPressed: () {},
           ),
         ),
         child: GestureDetector(
